@@ -5,6 +5,8 @@ function LayerControls({ layers, onToggle }) {
     { key: 'buildings', label: '🏢 建筑图层', color: '#4a90d9' },
     { key: 'roads', label: '🛣️ 道路图层', color: '#888888' },
     { key: 'traffic', label: '🚗 交通图层', color: '#d94a4a' },
+    { key: 'security', label: '📹 安防监控', color: '#00ff00' },
+    { key: 'energy', label: '⚡ 能耗监测', color: '#ffaa00' },
   ]
 
   return (
