@@ -30,6 +30,7 @@
 .header-controls {
   display: flex;
   gap: 12px;
+  align-items: center;
 }
 
 .control-btn {
@@ -59,18 +60,34 @@
   height: 100%;
 }
 
-/* 数据面板样式 */
-.data-panel {
+.left-panels {
   position: absolute;
   top: 20px;
   left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 50;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.left-panels::-webkit-scrollbar {
+  width: 4px;
+}
+
+.left-panels::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+.data-panel {
   width: 280px;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(0, 255, 255, 0.2);
   border-radius: 12px;
   padding: 20px;
-  z-index: 50;
 }
 
 .data-panel h3 {
@@ -79,6 +96,10 @@
   margin-bottom: 16px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.data-section {
+  margin-bottom: 10px;
 }
 
 .data-item {
@@ -112,7 +133,6 @@
   color: #ff4444;
 }
 
-/* 图层控制样式 */
 .layer-controls {
   position: absolute;
   top: 20px;
@@ -155,7 +175,6 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* 建筑信息弹窗 */
 .building-info {
   position: absolute;
   bottom: 20px;
@@ -236,12 +255,419 @@
   font-weight: 500;
 }
 
-/* 响应式 */
+.weather-controls {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 15px;
+}
+
+.weather-controls h4 {
+  font-size: 12px;
+  color: #00ffff;
+  margin-bottom: 8px;
+}
+
+.weather-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.weather-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 70px;
+}
+
+.weather-btn:hover:not(:disabled) {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.weather-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.weather-btn.active {
+  background: rgba(255, 204, 0, 0.15);
+}
+
+.weather-label {
+  font-size: 12px;
+  color: #fff;
+}
+
+.weather-desc {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+}
+
+.transition-indicator {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.transition-text {
+  font-size: 11px;
+  color: #ffaa00;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.view-controls {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 15px;
+}
+
+.view-controls h4 {
+  font-size: 12px;
+  color: #00ffff;
+  margin-bottom: 8px;
+}
+
+.view-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.view-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  background: transparent;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 80px;
+}
+
+.view-btn:hover {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.view-btn.active {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: #00ffff;
+}
+
+.view-label {
+  font-size: 12px;
+  color: #fff;
+}
+
+.view-desc {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 2px;
+}
+
+.first-person-hint {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.first-person-hint p {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 2px 0;
+}
+
+.alert-panel {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 320px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 15px;
+  z-index: 60;
+  animation: slideIn 0.3s ease;
+}
+
+.alert-header {
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 68, 68, 0.2);
+}
+
+.alert-header h4 {
+  font-size: 14px;
+  color: #ff4444;
+}
+
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid;
+  transition: all 0.3s;
+}
+
+.alert-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.alert-item.critical {
+  border-left-color: #ff4444;
+}
+
+.alert-item.warning {
+  border-left-color: #ffaa00;
+}
+
+.alert-item.info {
+  border-left-color: #44aaff;
+}
+
+.alert-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.level-icon {
+  font-size: 14px;
+}
+
+.type-icon {
+  font-size: 12px;
+}
+
+.alert-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.alert-message {
+  font-size: 12px;
+  color: #fff;
+}
+
+.alert-time {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.alert-dismiss {
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.alert-dismiss:hover {
+  background: rgba(255, 68, 68, 0.3);
+  color: #ff4444;
+}
+
+.energy-panel {
+  width: 280px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.energy-panel h3 {
+  font-size: 16px;
+  color: #00ffff;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.region-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.region-tab {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: #888;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.region-tab:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.region-tab.active {
+  background: rgba(0, 255, 255, 0.1);
+}
+
+.energy-stats {
+  margin-bottom: 15px;
+}
+
+.stat-item {
+  padding: 10px 0;
+}
+
+.stat-item.current {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: #00ffff;
+}
+
+.stat-value small {
+  font-size: 12px;
+  font-weight: normal;
+  opacity: 0.7;
+}
+
+.stat-row {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-row .stat-item {
+  flex: 1;
+}
+
+.stat-row .stat-value {
+  font-size: 14px;
+}
+
+.chart-container {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+.energy-chart {
+  display: block;
+}
+
+.energy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.energy-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.energy-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.energy-item.selected {
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.energy-item-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+}
+
+.region-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.region-name {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.energy-item-chart {
+  flex: 1;
+}
+
+.energy-item-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #00ffff;
+  min-width: 70px;
+  text-align: right;
+}
+
 @media (max-width: 768px) {
-  .data-panel {
+  .left-panels {
     width: 240px;
     top: 10px;
     left: 10px;
+  }
+
+  .data-panel,
+  .energy-panel {
+    width: 100%;
     padding: 15px;
   }
 
@@ -255,5 +681,27 @@
     width: calc(100% - 40px);
     left: 20px;
     right: 20px;
+  }
+
+  .alert-panel {
+    width: calc(100% - 40px);
+    left: 20px;
+    right: 20px;
+  }
+
+  .header-controls {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .weather-controls,
+  .view-controls {
+    padding: 8px 10px;
+  }
+
+  .weather-btn,
+  .view-btn {
+    min-width: 60px;
+    padding: 6px 8px;
   }
 }
