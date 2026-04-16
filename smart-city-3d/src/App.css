@@ -30,6 +30,13 @@
 .header-controls {
   display: flex;
   gap: 12px;
+  align-items: center;
+}
+
+.weather-controls,
+.view-controls {
+  display: flex;
+  gap: 4px;
 }
 
 .control-btn {
@@ -41,11 +48,28 @@
   cursor: pointer;
   font-size: 14px;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .control-btn:hover {
   background: rgba(0, 255, 255, 0.2);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.control-btn.active,
+.weather-btn.active {
+  background: rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+.weather-btn {
+  padding: 8px 12px;
+}
+
+.view-btn {
+  padding: 8px 12px;
 }
 
 .main-container {
@@ -59,12 +83,69 @@
   height: 100%;
 }
 
-/* 数据面板样式 */
-.data-panel {
+.panel-tabs {
   position: absolute;
   top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 8px;
+  z-index: 50;
+}
+
+.panel-tab {
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.panel-tab:hover {
+  background: rgba(0, 255, 255, 0.1);
+  color: #00ffff;
+}
+
+.panel-tab.active {
+  background: rgba(0, 255, 255, 0.2);
+  color: #00ffff;
+}
+
+.alert-badge {
+  position: absolute;
+  top: 2px;
+  right: 8px;
+  background: #ff4444;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.data-panel,
+.alert-panel,
+.energy-panel {
+  position: absolute;
+  top: 80px;
   left: 20px;
-  width: 280px;
+  width: 340px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(0, 255, 255, 0.2);
@@ -73,12 +154,43 @@
   z-index: 50;
 }
 
-.data-panel h3 {
+.data-panel::-webkit-scrollbar,
+.alert-panel::-webkit-scrollbar,
+.energy-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.data-panel::-webkit-scrollbar-track,
+.alert-panel::-webkit-scrollbar-track,
+.energy-panel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.data-panel::-webkit-scrollbar-thumb,
+.alert-panel::-webkit-scrollbar-thumb,
+.energy-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.data-panel h3,
+.alert-panel h3,
+.energy-panel h3 {
   font-size: 16px;
   color: #00ffff;
   margin-bottom: 16px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.data-section {
+  margin-top: 16px;
+}
+
+.data-section h4 {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 10px;
 }
 
 .data-item {
@@ -112,10 +224,280 @@
   color: #ff4444;
 }
 
-/* 图层控制样式 */
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.alert-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #ff4444;
+  align-items: flex-start;
+}
+
+.alert-item.critical {
+  border-left-color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+  animation: pulse-danger 2s infinite;
+}
+
+.alert-item.warning {
+  border-left-color: #ffaa00;
+  background: rgba(255, 170, 0, 0.05);
+}
+
+.alert-item.info {
+  border-left-color: #00aaff;
+  background: rgba(0, 170, 255, 0.05);
+}
+
+@keyframes pulse-danger {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 68, 68, 0);
+  }
+}
+
+.alert-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.alert-type {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.alert-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.alert-location {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.alert-message {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.acknowledge-btn {
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 255, 136, 0.2);
+  border: 1px solid rgba(0, 255, 136, 0.5);
+  color: #00ff88;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.acknowledge-btn:hover {
+  background: rgba(0, 255, 136, 0.4);
+}
+
+.no-alerts {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.no-alerts-icon {
+  font-size: 48px;
+  color: #00ff88;
+  margin-bottom: 12px;
+}
+
+.no-alerts p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.alert-summary {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.summary-item {
+  text-align: center;
+}
+
+.summary-count {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.summary-count.critical {
+  color: #ff4444;
+}
+
+.summary-count.warning {
+  color: #ffaa00;
+}
+
+.summary-count.info {
+  color: #00aaff;
+}
+
+.summary-label {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.zone-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.zone-tab {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+
+.zone-tab:hover {
+  background: rgba(0, 255, 255, 0.1);
+  color: #00ffff;
+}
+
+.zone-tab.active {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: var(--zone-color, #00ffff);
+  color: var(--zone-color, #00ffff);
+}
+
+.energy-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.summary-card {
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+
+.summary-card .summary-label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.summary-card .summary-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #00ffff;
+  display: block;
+}
+
+.summary-card .summary-unit {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.zone-energy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.zone-energy-item {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 12px;
+  border-left: 3px solid #00ffff;
+}
+
+.zone-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.zone-metrics {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.metric {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.metric-icon {
+  font-size: 14px;
+}
+
+.metric-value {
+  font-weight: 500;
+  color: #00ffff;
+}
+
+.chart-container {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.chart-title {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
 .layer-controls {
   position: absolute;
-  top: 20px;
+  top: 80px;
   right: 20px;
   background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(10px);
@@ -155,7 +537,6 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* 建筑信息弹窗 */
 .building-info {
   position: absolute;
   bottom: 20px;
@@ -236,24 +617,57 @@
   font-weight: 500;
 }
 
-/* 响应式 */
 @media (max-width: 768px) {
-  .data-panel {
-    width: 240px;
+  .header-controls {
+    gap: 6px;
+  }
+  
+  .weather-btn,
+  .view-btn {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+  
+  .weather-btn span,
+  .view-btn span {
+    display: none;
+  }
+  
+  .panel-tabs {
     top: 10px;
     left: 10px;
-    padding: 15px;
+    right: 10px;
+    transform: none;
+    justify-content: center;
   }
-
+  
+  .panel-tab {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .data-panel,
+  .alert-panel,
+  .energy-panel {
+    width: calc(100% - 40px);
+    top: 80px;
+    left: 20px;
+    max-height: 40vh;
+  }
+  
   .layer-controls {
     top: auto;
     bottom: 20px;
     right: 10px;
   }
-
+  
   .building-info {
     width: calc(100% - 40px);
     left: 20px;
     right: 20px;
+  }
+  
+  .energy-summary {
+    grid-template-columns: 1fr;
   }
 }

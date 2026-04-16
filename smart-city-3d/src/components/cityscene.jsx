@@ -1,22 +1,22 @@
-import React, { useMemo, useRef, useEffect } from 'react'
+import React, { useMemo, useRef, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 // 建筑数据
 const buildingData = [
-  { id: 1, x: -20, z: -20, width: 8, depth: 8, height: 25, name: '科技大厦', type: '办公楼', floors: 30, occupancy: 85 },
-  { id: 2, x: -5, z: -20, width: 10, depth: 10, height: 35, name: '金融中心', type: '商业楼', floors: 45, occupancy: 92 },
-  { id: 3, x: 15, z: -20, width: 7, depth: 7, height: 20, name: '创新广场', type: '办公楼', floors: 25, occupancy: 78 },
-  { id: 4, x: -25, z: -5, width: 6, depth: 6, height: 18, name: '住宅A区', type: '住宅楼', floors: 22, occupancy: 95 },
-  { id: 5, x: -10, z: -5, width: 12, depth: 8, height: 40, name: '城市地标', type: '综合体', floors: 55, occupancy: 88 },
-  { id: 6, x: 10, z: -5, width: 8, depth: 8, height: 28, name: '商务中心', type: '办公楼', floors: 35, occupancy: 82 },
-  { id: 7, x: 25, z: -5, width: 6, depth: 6, height: 22, name: '住宅B区', type: '住宅楼', floors: 28, occupancy: 91 },
-  { id: 8, x: -20, z: 10, width: 9, depth: 9, height: 30, name: '科技园A座', type: '办公楼', floors: 38, occupancy: 87 },
-  { id: 9, x: 0, z: 10, width: 11, depth: 11, height: 45, name: '中央塔楼', type: '商业楼', floors: 60, occupancy: 96 },
-  { id: 10, x: 20, z: 10, width: 8, depth: 8, height: 26, name: '科技园B座', type: '办公楼', floors: 32, occupancy: 79 },
-  { id: 11, x: -15, z: 25, width: 7, depth: 7, height: 24, name: '公寓楼A', type: '住宅楼', floors: 30, occupancy: 93 },
-  { id: 12, x: 5, z: 25, width: 10, depth: 10, height: 32, name: '购物中心', type: '商业楼', floors: 8, occupancy: 89 },
-  { id: 13, x: 25, z: 25, width: 7, depth: 7, height: 21, name: '公寓楼B', type: '住宅楼', floors: 26, occupancy: 86 },
+  { id: 1, x: -20, z: -20, width: 8, depth: 8, height: 25, name: '科技大厦', type: '办公楼', floors: 30, occupancy: 85, zone: 'A' },
+  { id: 2, x: -5, z: -20, width: 10, depth: 10, height: 35, name: '金融中心', type: '商业楼', floors: 45, occupancy: 92, zone: 'A' },
+  { id: 3, x: 15, z: -20, width: 7, depth: 7, height: 20, name: '创新广场', type: '办公楼', floors: 25, occupancy: 78, zone: 'A' },
+  { id: 4, x: -25, z: -5, width: 6, depth: 6, height: 18, name: '住宅A区', type: '住宅楼', floors: 22, occupancy: 95, zone: 'B' },
+  { id: 5, x: -10, z: -5, width: 12, depth: 8, height: 40, name: '城市地标', type: '综合体', floors: 55, occupancy: 88, zone: 'B' },
+  { id: 6, x: 10, z: -5, width: 8, depth: 8, height: 28, name: '商务中心', type: '办公楼', floors: 35, occupancy: 82, zone: 'B' },
+  { id: 7, x: 25, z: -5, width: 6, depth: 6, height: 22, name: '住宅B区', type: '住宅楼', floors: 28, occupancy: 91, zone: 'C' },
+  { id: 8, x: -20, z: 10, width: 9, depth: 9, height: 30, name: '科技园A座', type: '办公楼', floors: 38, occupancy: 87, zone: 'C' },
+  { id: 9, x: 0, z: 10, width: 11, depth: 11, height: 45, name: '中央塔楼', type: '商业楼', floors: 60, occupancy: 96, zone: 'C' },
+  { id: 10, x: 20, z: 10, width: 8, depth: 8, height: 26, name: '科技园B座', type: '办公楼', floors: 32, occupancy: 79, zone: 'D' },
+  { id: 11, x: -15, z: 25, width: 7, depth: 7, height: 24, name: '公寓楼A', type: '住宅楼', floors: 30, occupancy: 93, zone: 'D' },
+  { id: 12, x: 5, z: 25, width: 10, depth: 10, height: 32, name: '购物中心', type: '商业楼', floors: 8, occupancy: 89, zone: 'D' },
+  { id: 13, x: 25, z: 25, width: 7, depth: 7, height: 21, name: '公寓楼B', type: '住宅楼', floors: 26, occupancy: 86, zone: 'C' },
 ]
 
 // 道路数据
@@ -30,44 +30,70 @@ const roadData = [
 ]
 
 // 建筑组件
-function Building({ data, onClick, visible }) {
+function Building({ data, onClick, visible, isAlert }) {
   const meshRef = useRef()
+  const alertRingRef = useRef()
   const [hovered, setHovered] = React.useState(false)
 
   const color = useMemo(() => {
+    if (isAlert) return '#ff4444'
     if (data.type === '办公楼') return '#4a90d9'
     if (data.type === '商业楼') return '#d94a4a'
     if (data.type === '住宅楼') return '#4ad94a'
     return '#d9a04a'
-  }, [data.type])
+  }, [data.type, isAlert])
 
   useFrame((state) => {
-    if (meshRef.current && hovered) {
-      meshRef.current.material.emissive.setHex(0x222222)
-    } else if (meshRef.current) {
-      meshRef.current.material.emissive.setHex(0x000000)
+    if (meshRef.current) {
+      if (isAlert) {
+        const pulse = Math.sin(state.clock.elapsedTime * 3) * 0.2 + 0.3
+        meshRef.current.material.emissive.setHex(0xff4444)
+        meshRef.current.material.emissiveIntensity = pulse
+      } else if (hovered) {
+        meshRef.current.material.emissive.setHex(0x222222)
+        meshRef.current.material.emissiveIntensity = 1
+      } else {
+        meshRef.current.material.emissive.setHex(0x000000)
+        meshRef.current.material.emissiveIntensity = 1
+      }
+    }
+    if (alertRingRef.current && isAlert) {
+      alertRingRef.current.rotation.y += 0.02
+      const scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.1
+      alertRingRef.current.scale.set(scale, scale, scale)
     }
   })
 
   if (!visible) return null
 
   return (
-    <mesh
-      ref={meshRef}
-      position={[data.x, data.height / 2, data.z]}
-      onClick={() => onClick(data)}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-      castShadow
-      receiveShadow
-    >
-      <boxGeometry args={[data.width, data.height, data.depth]} />
-      <meshStandardMaterial 
-        color={color} 
-        roughness={0.3}
-        metalness={0.2}
-      />
-    </mesh>
+    <group>
+      <mesh
+        ref={meshRef}
+        position={[data.x, data.height / 2, data.z]}
+        onClick={() => onClick(data)}
+        onPointerOver={() => setHovered(true)}
+        onPointerOut={() => setHovered(false)}
+        castShadow
+        receiveShadow
+      >
+        <boxGeometry args={[data.width, data.height, data.depth]} />
+        <meshStandardMaterial 
+          color={color} 
+          roughness={0.3}
+          metalness={0.2}
+        />
+      </mesh>
+      {isAlert && (
+        <mesh
+          ref={alertRingRef}
+          position={[data.x, data.height + 3, data.z]}
+        >
+          <torusGeometry args={[Math.max(data.width, data.depth), 0.5, 8, 32]} />
+          <meshBasicMaterial color="#ff4444" transparent opacity={0.8} />
+        </mesh>
+      )}
+    </group>
   )
 }
 
@@ -155,7 +181,7 @@ function GridHelper() {
 }
 
 // 主场景组件
-function CityScene({ onBuildingClick, layers }) {
+function CityScene({ onBuildingClick, layers, alertBuildings = [] }) {
   return (
     <>
       <Ground />
@@ -171,6 +197,7 @@ function CityScene({ onBuildingClick, layers }) {
           data={building}
           onClick={onBuildingClick}
           visible={layers.buildings}
+          isAlert={alertBuildings.includes(building.id)}
         />
       ))}
       
@@ -179,4 +206,5 @@ function CityScene({ onBuildingClick, layers }) {
   )
 }
 
+export { buildingData }
 export default CityScene
