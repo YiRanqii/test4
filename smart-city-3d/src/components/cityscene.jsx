@@ -1,8 +1,7 @@
-import React, { useMemo, useRef, useEffect } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
-// 建筑数据
 const buildingData = [
   { id: 1, x: -20, z: -20, width: 8, depth: 8, height: 25, name: '科技大厦', type: '办公楼', floors: 30, occupancy: 85 },
   { id: 2, x: -5, z: -20, width: 10, depth: 10, height: 35, name: '金融中心', type: '商业楼', floors: 45, occupancy: 92 },
@@ -19,7 +18,6 @@ const buildingData = [
   { id: 13, x: 25, z: 25, width: 7, depth: 7, height: 21, name: '公寓楼B', type: '住宅楼', floors: 26, occupancy: 86 },
 ]
 
-// 道路数据
 const roadData = [
   { x1: -40, z1: -12, x2: 40, z2: -12, width: 6 },
   { x1: -40, z1: 2, x2: 40, z2: 2, width: 6 },
@@ -29,7 +27,6 @@ const roadData = [
   { x1: 18, z1: -40, x2: 18, z2: 40, width: 6 },
 ]
 
-// 建筑组件
 function Building({ data, onClick, visible }) {
   const meshRef = useRef()
   const [hovered, setHovered] = React.useState(false)
@@ -41,7 +38,7 @@ function Building({ data, onClick, visible }) {
     return '#d9a04a'
   }, [data.type])
 
-  useFrame((state) => {
+  useFrame(() => {
     if (meshRef.current && hovered) {
       meshRef.current.material.emissive.setHex(0x222222)
     } else if (meshRef.current) {
@@ -71,7 +68,6 @@ function Building({ data, onClick, visible }) {
   )
 }
 
-// 道路组件
 function Road({ data, visible }) {
   if (!visible) return null
 
@@ -90,7 +86,6 @@ function Road({ data, visible }) {
   )
 }
 
-// 交通车辆组件
 function Traffic({ visible }) {
   const carsRef = useRef([])
   
@@ -134,7 +129,6 @@ function Traffic({ visible }) {
   )
 }
 
-// 地面组件
 function Ground() {
   return (
     <mesh position={[0, -0.5, 0]} receiveShadow>
@@ -144,7 +138,6 @@ function Ground() {
   )
 }
 
-// 网格辅助线
 function GridHelper() {
   return (
     <gridHelper
@@ -154,7 +147,6 @@ function GridHelper() {
   )
 }
 
-// 主场景组件
 function CityScene({ onBuildingClick, layers }) {
   return (
     <>
@@ -179,4 +171,4 @@ function CityScene({ onBuildingClick, layers }) {
   )
 }
 
-export default CityScene
+export { CityScene as default, buildingData }
