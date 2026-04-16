@@ -13,8 +13,11 @@ function App() {
     buildings: true,
     roads: true,
     traffic: true,
+    security: false,
+    energy: false,
   })
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isNightMode, setIsNightMode] = useState(false)
 
   const handleBuildingClick = useCallback((building) => {
     setSelectedBuilding(building)
@@ -38,11 +41,18 @@ function App() {
     }
   }, [])
 
+  const toggleDayNight = useCallback(() => {
+    setIsNightMode(prev => !prev)
+  }, [])
+
   return (
     <div className="app">
       <div className="header">
         <h1>🏙️ 数字孪生智慧城市</h1>
         <div className="header-controls">
+          <button onClick={toggleDayNight} className="control-btn day-night-btn">
+            {isNightMode ? '☀️ 白天模式' : '🌙 夜晚模式'}
+          </button>
           <button onClick={toggleFullscreen} className="control-btn">
             {isFullscreen ? '⛶ 退出全屏' : '⛶ 全屏'}
           </button>
@@ -58,14 +68,14 @@ function App() {
           >
             <Sky
               distance={450000}
-              sunPosition={[0, 1, 0]}
-              inclination={0}
+              sunPosition={isNightMode ? [0, -1, 0] : [0, 1, 0]}
+              inclination={isNightMode ? 0.5 : 0}
               azimuth={0.25}
             />
-            <ambientLight intensity={0.4} />
+            <ambientLight intensity={isNightMode ? 0.1 : 0.4} />
             <directionalLight
               position={[50, 100, 50]}
-              intensity={1}
+              intensity={isNightMode ? 0.2 : 1}
               castShadow
               shadow-mapSize-width={2048}
               shadow-mapSize-height={2048}
@@ -81,6 +91,7 @@ function App() {
             <CityScene
               onBuildingClick={handleBuildingClick}
               layers={layers}
+              isNightMode={isNightMode}
             />
           </Canvas>
         </div>
