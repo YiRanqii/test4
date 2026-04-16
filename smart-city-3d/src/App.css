@@ -48,6 +48,11 @@
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
 }
 
+.control-btn.active {
+  background: rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
 .main-container {
   flex: 1;
   position: relative;
@@ -79,6 +84,14 @@
   margin-bottom: 16px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.data-section {
+  margin-bottom: 20px;
+}
+
+.data-section:last-child {
+  margin-bottom: 0;
 }
 
 .data-item {
@@ -153,6 +166,401 @@
 .layer-label {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.9);
+}
+
+/* 控制面板样式 */
+.control-panel {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: 280px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 50;
+}
+
+.control-section {
+  margin-bottom: 16px;
+}
+
+.control-section:last-child {
+  margin-bottom: 0;
+}
+
+.control-section h4 {
+  font-size: 14px;
+  color: #00ffff;
+  margin-bottom: 10px;
+}
+
+.weather-buttons,
+.view-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.weather-btn,
+.view-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #fff;
+}
+
+.weather-btn:hover,
+.view-btn:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: rgba(0, 255, 255, 0.3);
+}
+
+.weather-btn.active,
+.view-btn.active {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: #00ffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.weather-icon {
+  font-size: 20px;
+}
+
+.weather-label,
+.view-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.view-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-left: auto;
+}
+
+.control-hint {
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(255, 193, 7, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 8px;
+  font-size: 12px;
+  color: #ffc107;
+}
+
+.control-hint p {
+  margin: 4px 0;
+}
+
+/* 能耗面板样式 */
+.energy-panel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 16px;
+  padding: 24px;
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.energy-panel h3 {
+  font-size: 20px;
+  color: #00ffff;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.energy-total {
+  text-align: center;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 128, 255, 0.1));
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.energy-total-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+}
+
+.total-number {
+  font-size: 36px;
+  font-weight: 700;
+  color: #00ffff;
+}
+
+.total-unit {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.total-label {
+  display: block;
+  margin-top: 8px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.zone-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.zone-btn {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 13px;
+}
+
+.zone-btn:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: rgba(0, 255, 255, 0.3);
+}
+
+.zone-btn.active {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: #00ffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.zone-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.zone-card {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+.zone-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.zone-card.high {
+  border-left-color: #ff4444;
+}
+
+.zone-card.medium {
+  border-left-color: #ffaa00;
+}
+
+.zone-card.normal {
+  border-left-color: #44ff44;
+}
+
+.zone-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.zone-icon {
+  font-size: 20px;
+}
+
+.zone-name {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.zone-value {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.value-number {
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.value-unit {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.zone-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.zone-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.zone-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.energy-chart {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.energy-chart h4 {
+  font-size: 14px;
+  color: #00ffff;
+  margin-bottom: 12px;
+}
+
+.chart-container {
+  height: 200px;
+}
+
+/* 预警面板样式 */
+.alert-panel {
+  position: absolute;
+  top: 20px;
+  right: 320px;
+  width: 300px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 50;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.alert-panel h3 {
+  font-size: 16px;
+  color: #ff4444;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 68, 68, 0.2);
+}
+
+.alert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alert-item {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border-left: 3px solid;
+}
+
+.alert-item.alert-critical {
+  border-left-color: #ff4444;
+  background: rgba(255, 68, 68, 0.1);
+}
+
+.alert-item.alert-warning {
+  border-left-color: #ffaa00;
+  background: rgba(255, 170, 0, 0.1);
+}
+
+.alert-item.alert-info {
+  border-left-color: #0080ff;
+  background: rgba(0, 128, 255, 0.1);
+}
+
+.alert-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.alert-icon {
+  font-size: 16px;
+}
+
+.alert-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.alert-dismiss {
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.alert-dismiss:hover {
+  background: rgba(255, 68, 68, 0.3);
+  color: #ff4444;
+}
+
+.alert-message {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.alert-time {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* 建筑信息弹窗 */
@@ -237,6 +645,23 @@
 }
 
 /* 响应式 */
+@media (max-width: 1200px) {
+  .energy-panel {
+    width: 90vw;
+    max-height: 70vh;
+  }
+
+  .alert-panel {
+    right: 20px;
+    top: 280px;
+    width: 260px;
+  }
+
+  .zone-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .data-panel {
     width: 240px;
@@ -251,9 +676,38 @@
     right: 10px;
   }
 
+  .control-panel {
+    width: calc(100% - 40px);
+    left: 20px;
+    bottom: 100px;
+  }
+
   .building-info {
     width: calc(100% - 40px);
     left: 20px;
     right: 20px;
+  }
+
+  .alert-panel {
+    position: relative;
+    width: calc(100% - 40px);
+    left: 20px;
+    right: 20px;
+    top: auto;
+    margin-top: 10px;
+  }
+
+  .energy-panel {
+    width: 95vw;
+    padding: 16px;
+  }
+
+  .header-controls {
+    gap: 8px;
+  }
+
+  .control-btn {
+    padding: 6px 12px;
+    font-size: 12px;
   }
 }
