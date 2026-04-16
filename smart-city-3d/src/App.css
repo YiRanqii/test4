@@ -1,0 +1,259 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3e 100%);
+}
+
+.header {
+  height: 60px;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  z-index: 100;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #00ffff, #0080ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.control-btn {
+  padding: 8px 16px;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  color: #00ffff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  background: rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.main-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* 数据面板样式 */
+.data-panel {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 280px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+  z-index: 50;
+}
+
+.data-panel h3 {
+  font-size: 16px;
+  color: #00ffff;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.data-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.data-item:last-child {
+  border-bottom: none;
+}
+
+.data-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.data-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: #00ffff;
+}
+
+.data-value.warning {
+  color: #ffaa00;
+}
+
+.data-value.danger {
+  color: #ff4444;
+}
+
+/* 图层控制样式 */
+.layer-controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  z-index: 50;
+}
+
+.layer-controls h4 {
+  font-size: 14px;
+  color: #00ffff;
+  margin-bottom: 12px;
+}
+
+.layer-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.layer-item:hover {
+  opacity: 0.8;
+}
+
+.layer-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #00ffff;
+}
+
+.layer-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* 建筑信息弹窗 */
+.building-info {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 320px;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  z-index: 60;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.building-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.building-info h3 {
+  font-size: 18px;
+  color: #00ffff;
+}
+
+.close-btn {
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 68, 68, 0.2);
+  border: 1px solid rgba(255, 68, 68, 0.4);
+  color: #ff4444;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.close-btn:hover {
+  background: rgba(255, 68, 68, 0.4);
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.info-value {
+  font-size: 14px;
+  color: #fff;
+  font-weight: 500;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .data-panel {
+    width: 240px;
+    top: 10px;
+    left: 10px;
+    padding: 15px;
+  }
+
+  .layer-controls {
+    top: auto;
+    bottom: 20px;
+    right: 10px;
+  }
+
+  .building-info {
+    width: calc(100% - 40px);
+    left: 20px;
+    right: 20px;
+  }
+}
